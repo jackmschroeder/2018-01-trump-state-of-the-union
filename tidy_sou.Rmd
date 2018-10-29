@@ -1,0 +1,34 @@
+---
+title: "SOTU"
+author: "Jack Schroeder"
+date: "10/29/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(stringr)
+library(lubridate)
+library(quanteda)
+library(DT)
+library(tidytext)
+library(tidyr)
+```
+
+```{r}
+sou <- read_csv("data/sou.csv")
+presidents <- read_csv("data/presidents.csv")
+
+sou <- sou %>%
+  left_join(presidents)
+
+party_pal <- c("#1482EE","#228B22","#E9967A","#686868","#FF3300","#EEC900")
+
+tidy_sou<-sou %>% 
+  unnest_tokens(word,text)
+```
+
