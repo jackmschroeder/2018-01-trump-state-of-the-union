@@ -1,11 +1,11 @@
 ---
-title: "SOTU"
+title: "State of the Union Sentiment Analysis"
 author: "Jack Schroeder"
 date: "10/29/2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE,echo=FALSE,message=FALSE,warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
@@ -19,7 +19,7 @@ library(tidytext)
 library(tidyr)
 ```
 
-```{r}
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
 sou <- read_csv("data/sou.csv")
 presidents <- read_csv("data/presidents.csv")
 
@@ -40,7 +40,9 @@ positivity<- tidy_sou %>%
 
 ggplot(positivity,aes(x=date.x,y=wordScore,color=party)) +
   geom_point() +
-  ggtitle("We got really sad during the war.", subtitle = "Also after 9/11.")
+  ggtitle("State of the Union Addresses Got Sad During the War.", subtitle = "Also After 9/11.") +
+  xlab("Date") +
+  ylab("Positivity Score of Speech")
 
 
 ```
