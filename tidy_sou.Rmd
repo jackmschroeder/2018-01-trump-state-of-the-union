@@ -26,9 +26,22 @@ presidents <- read_csv("data/presidents.csv")
 sou <- sou %>%
   left_join(presidents)
 
-party_pal <- c("#1482EE","#228B22","#E9967A","#686868","#FF3300","#EEC900")
+afinn<- get_sentiments("afinn")
 
 tidy_sou<-sou %>% 
-  unnest_tokens(word,text)
+  unnest_tokens(word,text) %>% 
+  inner_join(afinn, by = "word")
+
+positivity<- tidy_sou %>% 
+  group_by(president,date) %>% 
+  summarize(wordScore = mean(score)) %>% 
+  arrange(desc(wordScore)) %>% 
+  left_join(sou, by = "president")
+
+ggplot(positivity,aes(x=date.x,y=wordScore,color=party)) +
+  geom_point() +
+  ggtitle("We got really sad during the war.", subtitle = "Also after 9/11.")
+
+
 ```
 
